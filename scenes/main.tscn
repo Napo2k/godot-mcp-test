@@ -1,36 +1,32 @@
-[gd_scene load_steps=2 format=3 uid="uid://slmain001"]
+[gd_scene load_steps=2 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 
 [node name="Main" type="Control"]
+script = ExtResource("1_main")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_main")
-
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0.02, 0.04, 0.02, 1)
-
 [node name="PaneGrid" type="GridContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 columns = 2
-
 [node name="PaneA" type="Panel" parent="PaneGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(640, 360)
-
+custom_minimum_size = Vector2(960, 480)
 [node name="PaneATitle" type="Label" parent="PaneGrid/PaneA"]
 layout_mode = 0
 offset_left = 5.0
@@ -38,21 +34,17 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ THE VIEWPORT ]"
-
-[node name="PaneAContent" type="Control" parent="PaneGrid/PaneA"]
-name = "PaneAContent"
+[node name="Node" type="Control" parent="PaneGrid/PaneA"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
-
 [node name="PaneB" type="Panel" parent="PaneGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(640, 360)
-
+custom_minimum_size = Vector2(960, 480)
 [node name="PaneBTitle" type="Label" parent="PaneGrid/PaneB"]
 layout_mode = 0
 offset_left = 5.0
@@ -60,21 +52,17 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ NAV-COM ]"
-
-[node name="PaneBContent" type="Control" parent="PaneGrid/PaneB"]
-name = "PaneBContent"
+[node name="Node" type="Control" parent="PaneGrid/PaneB"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
-
 [node name="PaneC" type="Panel" parent="PaneGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(640, 360)
-
+custom_minimum_size = Vector2(960, 480)
 [node name="PaneCTitle" type="Label" parent="PaneGrid/PaneC"]
 layout_mode = 0
 offset_left = 5.0
@@ -82,80 +70,62 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ BIO-STATUS / GEAR ]"
-
-[node name="PaneCContent" type="Control" parent="PaneGrid/PaneC"]
-name = "PaneCContent"
+[node name="Node" type="Control" parent="PaneGrid/PaneC"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
-
 [node name="StatusVBox" type="VBoxContainer" parent="PaneGrid/PaneC/PaneCContent"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-
 [node name="HPLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "HP: 100 / 100"
-
 [node name="HPBar" type="ProgressBar" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 14)
 value = 100.0
-
 [node name="SanityLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "MENTAL HEALTH: 100 / 100"
-
 [node name="SanityBar" type="ProgressBar" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 14)
 value = 100.0
-
 [node name="APLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "AP: 3 / 3"
-
 [node name="MPLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "MP: 5 / 5"
-
 [node name="MiasmaLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "STATION INSTABILITY: 0%"
-
 [node name="Separator1" type="HSeparator" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
-
 [node name="GearLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "--- EQUIPMENT ---"
-
 [node name="Weapon1Label" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "WEAPON 1: [EMPTY]"
-
 [node name="Weapon2Label" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "WEAPON 2: [EMPTY]"
-
 [node name="SuitLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "CORE SUIT: [EMPTY]"
-
 [node name="ChipLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
 layout_mode = 2
 text = "UTILITY CHIP: [EMPTY]"
-
 [node name="PaneD" type="Panel" parent="PaneGrid"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_minimum_size = Vector2(640, 360)
-
+custom_minimum_size = Vector2(960, 480)
 [node name="PaneDTitle" type="Label" parent="PaneGrid/PaneD"]
 layout_mode = 0
 offset_left = 5.0
@@ -163,34 +133,28 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ DATA LOG ]"
-
-[node name="PaneDContent" type="Control" parent="PaneGrid/PaneD"]
-name = "PaneDContent"
+[node name="Node" type="Control" parent="PaneGrid/PaneD"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
-
 [node name="DataLogScroll" type="ScrollContainer" parent="PaneGrid/PaneD/PaneDContent"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-
 [node name="DataLogText" type="RichTextLabel" parent="PaneGrid/PaneD/PaneDContent/DataLogScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
 scroll_following = true
 fit_content = true
-
 [node name="CRTOverlay" type="CanvasLayer" parent="."]
 layer = 10
-
 [node name="CRTRect" type="ColorRect" parent="CRTOverlay"]
 layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 720.0
+offset_right = 2560.0
+offset_bottom = 1440.0
 color = Color(0, 0, 0, 0)
 material = null
