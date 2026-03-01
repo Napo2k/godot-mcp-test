@@ -23,6 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 columns = 2
 [node name="PaneA" type="Panel" parent="PaneGrid"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -34,13 +35,15 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ THE VIEWPORT ]"
-[node name="Node" type="Control" parent="PaneGrid/PaneA"]
+[node name="PaneAContent" type="Control" parent="PaneGrid/PaneA"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
 [node name="PaneB" type="Panel" parent="PaneGrid"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -52,13 +55,15 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ NAV-COM ]"
-[node name="Node" type="Control" parent="PaneGrid/PaneB"]
+[node name="PaneBContent" type="Control" parent="PaneGrid/PaneB"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
 [node name="PaneC" type="Panel" parent="PaneGrid"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -70,38 +75,47 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ BIO-STATUS / GEAR ]"
-[node name="Node" type="Control" parent="PaneGrid/PaneC"]
+[node name="PaneCContent" type="Control" parent="PaneGrid/PaneC"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
 offset_right = 638.0
 offset_bottom = 358.0
 [node name="StatusVBox" type="VBoxContainer" parent="PaneGrid/PaneC/PaneCContent"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 [node name="HPLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "HP: 100 / 100"
 [node name="HPBar" type="ProgressBar" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 14)
 value = 100.0
 [node name="SanityLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "MENTAL HEALTH: 100 / 100"
 [node name="SanityBar" type="ProgressBar" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 custom_minimum_size = Vector2(0, 14)
 value = 100.0
 [node name="APLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "AP: 3 / 3"
 [node name="MPLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "MP: 5 / 5"
 [node name="MiasmaLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "STATION INSTABILITY: 0%"
 [node name="Separator1" type="HSeparator" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
@@ -110,18 +124,23 @@ layout_mode = 2
 layout_mode = 2
 text = "--- EQUIPMENT ---"
 [node name="Weapon1Label" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "WEAPON 1: [EMPTY]"
 [node name="Weapon2Label" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "WEAPON 2: [EMPTY]"
 [node name="SuitLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "CORE SUIT: [EMPTY]"
 [node name="ChipLabel" type="Label" parent="PaneGrid/PaneC/PaneCContent/StatusVBox"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "UTILITY CHIP: [EMPTY]"
 [node name="PaneD" type="Panel" parent="PaneGrid"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -133,7 +152,8 @@ offset_top = 5.0
 offset_right = 635.0
 offset_bottom = 25.0
 text = "[ DATA LOG ]"
-[node name="Node" type="Control" parent="PaneGrid/PaneD"]
+[node name="PaneDContent" type="Control" parent="PaneGrid/PaneD"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 2.0
 offset_top = 28.0
@@ -145,6 +165,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 [node name="DataLogText" type="RichTextLabel" parent="PaneGrid/PaneD/PaneDContent/DataLogScroll"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
@@ -153,6 +174,7 @@ fit_content = true
 [node name="CRTOverlay" type="CanvasLayer" parent="."]
 layer = 10
 [node name="CRTRect" type="ColorRect" parent="CRTOverlay"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_right = 2560.0
 offset_bottom = 1440.0

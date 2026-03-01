@@ -1,31 +1,31 @@
 extends Control
 
 # Pane references
-@onready var pane_a: Panel = $PaneGrid/PaneA
-@onready var pane_b: Panel = $PaneGrid/PaneB
-@onready var pane_c: Panel = $PaneGrid/PaneC
-@onready var pane_d: Panel = $PaneGrid/PaneD
-@onready var crt_rect: ColorRect = $CRTOverlay/CRTRect
+@onready var pane_a: Panel = %PaneA
+@onready var pane_b: Panel = %PaneB
+@onready var pane_c: Panel = %PaneC
+@onready var pane_d: Panel = %PaneD
+@onready var crt_rect: ColorRect = %CRTRect
 
 # Pane content areas
-@onready var pane_a_content: Control = $PaneGrid/PaneA/PaneAContent
-@onready var pane_b_content: Control = $PaneGrid/PaneB/PaneBContent
+@onready var pane_a_content: Control = %PaneAContent
+@onready var pane_b_content: Control = %PaneBContent
 
 # Pane D data log references
-@onready var data_log_text: RichTextLabel = $PaneGrid/PaneD/PaneDContent/DataLogScroll/DataLogText
+@onready var data_log_text: RichTextLabel = %DataLogText
 
 # Pane C stat references
-@onready var hp_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/HPLabel
-@onready var hp_bar: ProgressBar = $PaneGrid/PaneC/PaneCContent/StatusVBox/HPBar
-@onready var sanity_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/SanityLabel
-@onready var sanity_bar: ProgressBar = $PaneGrid/PaneC/PaneCContent/StatusVBox/SanityBar
-@onready var ap_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/APLabel
-@onready var mp_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/MPLabel
-@onready var miasma_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/MiasmaLabel
-@onready var weapon1_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/Weapon1Label
-@onready var weapon2_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/Weapon2Label
-@onready var suit_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/SuitLabel
-@onready var chip_label: Label = $PaneGrid/PaneC/PaneCContent/StatusVBox/ChipLabel
+@onready var hp_label: Label = %HPLabel
+@onready var hp_bar: ProgressBar = %HPBar
+@onready var sanity_label: Label = %SanityLabel
+@onready var sanity_bar: ProgressBar = %SanityBar
+@onready var ap_label: Label = %APLabel
+@onready var mp_label: Label = %MPLabel
+@onready var miasma_label: Label = %MiasmaLabel
+@onready var weapon1_label: Label = %Weapon1Label
+@onready var weapon2_label: Label = %Weapon2Label
+@onready var suit_label: Label = %SuitLabel
+@onready var chip_label: Label = %ChipLabel
 
 # CRT flicker
 var _flicker_time: float = 0.0
@@ -71,7 +71,7 @@ func _apply_pane_styles() -> void:
 				child.add_theme_color_override("font_color", Color(0.0, 1.0, 0.255, 1.0))
 
 	# Style stat labels in pane C
-	var stat_vbox = $PaneGrid/PaneC/PaneCContent/StatusVBox
+	var stat_vbox = %StatusVBox
 	for child in stat_vbox.get_children():
 		if child is Label:
 			child.add_theme_color_override("font_color", Color(0.0, 0.9, 0.2, 1.0))
