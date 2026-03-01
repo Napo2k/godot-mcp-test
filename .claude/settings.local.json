@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where godot:*)",
+      "mcp__godot-mcp__create_scene",
+      "mcp__godot-mcp__add_node",
+      "Bash(python3:*)"
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+# Ralph Progress Log
+Started: 2026-02-27T00:00:00Z
+Updated: 2026-02-27T12:00:00Z
+
+## Codebase Patterns
+- Godot 4.6 project, Forward Plus renderer, D3D12 on Windows
+- All scripts in scripts/, scenes in scenes/, shaders in shaders/
+- Autoloads: PlayerData, DataLog, GameManager, FloorGenerator, SaveManager, MiasmaMgr
+- No scene files for Player/Enemy/Room — built programmatically via class_name constructors
+- Game state machine: HUB → EXPLORATION ↔ COMBAT
+- Input: WASD=move, E=interact, SPACE=end_turn, F=attack, G=use_item, I=inventory
+- CRT overlay: CanvasLayer layer=10 with ColorRect + ShaderMaterial (crt.gdshader)
+- Pane A content: hud.get_pane_a_content() — game.tscn inserted here
+- Pane B content: hud.get_pane_b_content() — NavCom control inserted here
+- Cover system: CoverSystem static class (RefCounted), Bresenham LoS
+- Items created via ItemData.from_id(id) factory method
+- Save file: user://signal_lost_save.json (neural scrip, implants, blueprints, endings)
+
+## US Status
+- US-001 [DONE]: project.godot + main.tscn + main.gd (4-pane layout)
+- US-002 [DONE]: shaders/crt.gdshader + applied in main.gd
+- US-003 [DONE]: floor_generator.gd (seed-based, graph rooms)
+- US-004 [DONE]: nav_com.gd (NavCom Control with _draw)
+- US-005 [DONE]: room_scene.gd + player.gd (grid movement, exit detection)
+- US-006 [DONE]: player_data.gd (HP/Sanity/AP/MP autoload)
+- US-007 [DONE]: main.tscn Pane C (HPBar, SanityBar, gear slots, real-time update)
+- US-008 [DONE]: data_log.gd autoload + RichTextLabel in Pane D
+- US-009 [DONE]: game_manager.gd enter_combat/end_combat + room lockdown
+- US-010 [DONE]: combat_manager.gd + enemy.gd (AP/MP turns, enemy AI)
+- US-011 [DONE]: cover_system.gd (Bresenham LoS, partial/full cover)
+- US-012 [DONE]: item_data.gd + room_scene loot/chest/locker interaction
+- US-013 [DONE]: miasma_manager.gd (instability meter, CRT intensify, enemy speed)
+- US-014 [DONE]: hub.tscn + hub.gd (stash, begin run, between-run screen)
+- US-015 [DONE]: hub.gd neuro-implants shop (4 implants, scrip cost, persistent)
+- US-016 [DONE]: room_scene terminal interaction + blueprint upload + save_manager
+- US-017 [DONE]: floor_generator elevator tags (bridge/hangar/source) + game_manager endings
+
+---

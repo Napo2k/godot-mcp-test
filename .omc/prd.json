@@ -1,0 +1,263 @@
+{
+  "project": "SIGNAL LOST",
+  "branchName": "ralph/signal-lost-godot",
+  "description": "A top-down psychological sci-fi roguelite set on a decaying space station, built in Godot 4. Features a diegetic 4-pane CRT terminal UI, dual-layer gameplay (exploration + tactical turn-based combat), procedural floor generation, AP/MP systems, equipment-driven abilities, a Miasma stress mechanic, meta-progression hub, and multiple narrative endings.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Godot Project Initialization & 4-Pane UI Layout",
+      "description": "As a developer, I want a Godot 4 project initialized with the correct structure so that all future systems have a foundation to build on.",
+      "acceptanceCriteria": [
+        "Godot 4 project exists in C:/git/gmcp-test/ with project.godot",
+        "Main scene contains a 4-pane layout: Pane A (viewport, top-left), Pane B (nav-com map, top-right), Pane C (bio-status/gear, bottom-left), Pane D (data log, bottom-right)",
+        "Each pane is visually distinct with a dark terminal border/frame",
+        "Project runs without errors in Godot editor"
+      ],
+      "priority": 1,
+      "passes": true
+    },
+    {
+      "id": "US-002",
+      "title": "CRT Shader Post-Processing Stack",
+      "description": "As a player, I want the UI to look like a retro CRT terminal so that the diegetic sci-fi atmosphere is established from the first frame.",
+      "acceptanceCriteria": [
+        "A CanvasLayer or SubViewport with a shader applies scanlines across the full screen",
+        "Spherical/barrel distortion visible on the screen edges",
+        "Phosphorus flicker effect implemented (subtle brightness oscillation)",
+        "Shader applies over all 4 panes simultaneously",
+        "Project runs without errors"
+      ],
+      "priority": 2,
+      "passes": true
+    },
+    {
+      "id": "US-003",
+      "title": "Procedural Floor Generation",
+      "description": "As a player, I want each run to have a unique station floor layout so that the game stays replayable.",
+      "acceptanceCriteria": [
+        "A seed-based generator creates a set of rooms connected by hallways",
+        "Rooms are represented as nodes in a graph data structure",
+        "Generator places a start room, an elevator/exit room, and 6-12 intermediate rooms",
+        "Hallways between rooms are valid (no isolated rooms)",
+        "The same seed always produces the same layout",
+        "Project runs without errors"
+      ],
+      "priority": 3,
+      "passes": true
+    },
+    {
+      "id": "US-004",
+      "title": "Nav-Com Map Panel (Pane B)",
+      "description": "As a player, I want to see a schematic map of the station floor so that I can navigate strategically between rooms.",
+      "acceptanceCriteria": [
+        "Pane B renders the generated floor as a node graph (Darkest Dungeon style)",
+        "Rooms display as boxes/nodes, hallways as connecting lines",
+        "Undiscovered rooms are hidden or shown as '?'",
+        "Current player location is highlighted",
+        "Elevator/exit room shows a 'ping' indicator once discovered",
+        "Map updates as player explores",
+        "Project runs without errors"
+      ],
+      "priority": 4,
+      "passes": true
+    },
+    {
+      "id": "US-005",
+      "title": "Exploration Mode – Grid Movement in Pane A",
+      "description": "As a player, I want to move freely through rooms and hallways in exploration mode so that I can discover the station at my own pace.",
+      "acceptanceCriteria": [
+        "Pane A renders the current room as a tile grid",
+        "Player character sprite is visible and moves via keyboard input (WASD or arrow keys)",
+        "Moving to a room exit transitions the player to the connected room",
+        "Exploration mode is the default state (no combat active)",
+        "Hallway nodes can contain event triggers (locker, terminal placeholder)",
+        "Project runs without errors"
+      ],
+      "priority": 5,
+      "passes": true
+    },
+    {
+      "id": "US-006",
+      "title": "Player Stats System (HP, Mental Health, AP, MP)",
+      "description": "As a player, I want persistent stats that govern my survival so that my choices carry meaningful consequences.",
+      "acceptanceCriteria": [
+        "Player has HP (max 100), Mental Health (max 100), AP (default 3), MP (default 5)",
+        "HP reaching 0 triggers a 'Reset' (run ends, returns to Hub)",
+        "Mental Health reaching 0 causes Pane D to display false information (hallucination text)",
+        "Stats are stored in a PlayerData resource/autoload",
+        "Stats reset at the start of each run",
+        "Project runs without errors"
+      ],
+      "priority": 6,
+      "passes": true
+    },
+    {
+      "id": "US-007",
+      "title": "Bio-Status & Gear Panel (Pane C)",
+      "description": "As a player, I want Pane C to display my current stats and equipped items so that I can make informed tactical decisions.",
+      "acceptanceCriteria": [
+        "Pane C shows HP bar, Mental Health bar, current AP, current MP",
+        "Pane C shows 4 equipment slots: Weapon 1, Weapon 2, Core Suit, Utility Chip",
+        "Slots display the equipped item's name or 'EMPTY'",
+        "Stats update in real-time as they change",
+        "Project runs without errors"
+      ],
+      "priority": 7,
+      "passes": true
+    },
+    {
+      "id": "US-008",
+      "title": "Data Log Panel (Pane D) – Scrolling Text Buffer",
+      "description": "As a player, I want Pane D to output narrative and combat text so that I feel immersed in the station's world.",
+      "acceptanceCriteria": [
+        "Pane D is a scrolling RichTextLabel or equivalent",
+        "New messages append to the bottom and the log scrolls down automatically",
+        "A DataLog autoload exposes a log(text: String) function callable from anywhere",
+        "Exploration events print flavor text (e.g., 'You enter the Hydroponics Bay. The air is thick.')",
+        "Combat results print math summaries (e.g., 'You fire. Hit! 12 damage.')",
+        "Project runs without errors"
+      ],
+      "priority": 8,
+      "passes": true
+    },
+    {
+      "id": "US-009",
+      "title": "Tactical Combat Mode Transition",
+      "description": "As a player, I want the game to lock down the room and switch to turn-based combat when I enter a room with enemies so that encounters feel tense and deliberate.",
+      "acceptanceCriteria": [
+        "Entering a room with enemies triggers COMBAT_MODE",
+        "Room doors are sealed (exit blocked) until all enemies are defeated",
+        "Combat mode switches Pane A from free movement to turn-based grid interaction",
+        "Defeating all enemies unseals the doors and returns to EXPLORATION_MODE",
+        "A 'COMBAT ENGAGED' message appears in Pane D on transition",
+        "A 'ROOM CLEARED' message appears in Pane D on return to exploration",
+        "Project runs without errors"
+      ],
+      "priority": 9,
+      "passes": true
+    },
+    {
+      "id": "US-010",
+      "title": "AP/MP Turn System & Basic Enemy AI",
+      "description": "As a player, I want to spend Action Points and Movement Points each turn, and have enemies take their own turns, so that combat feels strategic.",
+      "acceptanceCriteria": [
+        "Player turn begins with AP and MP refreshed to current max values",
+        "Moving one tile costs 1 MP; attacking costs 1 AP (base)",
+        "Ending turn (key press or AP/MP depleted) passes control to enemies",
+        "At least one enemy type exists that moves toward the player and performs a melee attack",
+        "Enemy turn ends and player turn begins again after all enemies act",
+        "AP/MP values update in Pane C in real-time",
+        "Combat actions log results to Pane D",
+        "Project runs without errors"
+      ],
+      "priority": 10,
+      "passes": true
+    },
+    {
+      "id": "US-011",
+      "title": "Cover System (Partial & Full Cover)",
+      "description": "As a player, I want to use pillars and crates for cover so that positioning matters in combat.",
+      "acceptanceCriteria": [
+        "Rooms procedurally place pillar and crate props on the grid",
+        "A tile adjacent to a pillar grants Partial Cover (-25% enemy hit chance)",
+        "A tile behind a crate grants Full Cover (-50% enemy hit chance, blocks line-of-sight)",
+        "Line-of-sight calculation exists for ranged attacks/abilities",
+        "Cover status is reflected in hit chance calculations logged to Pane D",
+        "Project runs without errors"
+      ],
+      "priority": 11,
+      "passes": true
+    },
+    {
+      "id": "US-012",
+      "title": "Loot System – Chests, Lockers & Items",
+      "description": "As a player, I want to find items in the environment so that I can build my loadout during a run.",
+      "acceptanceCriteria": [
+        "Cleared rooms can contain chest nodes; hallways can contain locker nodes",
+        "Interacting with a chest/locker reveals 1-3 random items",
+        "Items have a name, type (Weapon, Suit, Chip, Consumable), and stat block",
+        "Player can equip items to the Paper Doll slots in Pane C",
+        "Equipped items grant the stated ability/stat bonus",
+        "A Medkit item grants a 'Heal' action that restores 25 HP (costs 1 AP)",
+        "Project runs without errors"
+      ],
+      "priority": 12,
+      "passes": true
+    },
+    {
+      "id": "US-013",
+      "title": "Miasma (Station Instability) Mechanic",
+      "description": "As a player, I want a creeping instability meter to pressure me so that I can't stall indefinitely.",
+      "acceptanceCriteria": [
+        "A Station Instability (Miasma) meter exists (0–100)",
+        "Miasma increases by 1 each player turn/move",
+        "At Miasma > 50: CRT shader intensifies (stronger scanlines/flicker) and Mental Health drains 1/turn",
+        "At Miasma > 75: enemies receive +1 MP per turn (move faster)",
+        "Miasma level displayed in Pane C or Pane D",
+        "Project runs without errors"
+      ],
+      "priority": 13,
+      "passes": true
+    },
+    {
+      "id": "US-014",
+      "title": "The Hub (Cabin) – Between-Run Screen",
+      "description": "As a player, I want a safe hub between runs so that I can prepare and feel progression across deaths.",
+      "acceptanceCriteria": [
+        "Dying (HP=0) transitions to the Hub scene",
+        "Hub has a visual distinct from the station (cabin aesthetic)",
+        "Hub contains: The Stash (store 1 item), Neuro-Implants shop, 'Begin Run' button",
+        "Meta-currency 'Neural Scrip' is tracked persistently (saved to disk)",
+        "Completing a run (reaching an elevator) also transitions to the Hub with a score/scrip reward",
+        "Project runs without errors"
+      ],
+      "priority": 14,
+      "passes": true
+    },
+    {
+      "id": "US-015",
+      "title": "Meta-Progression – Neuro-Implants",
+      "description": "As a player, I want to spend Neural Scrip on permanent upgrades so that each run makes me progressively stronger.",
+      "acceptanceCriteria": [
+        "At least 4 Neuro-Implants available: +Damage vs Mutants, +Mental Resistance, +Max HP, +Starting AP",
+        "Each implant has a Neural Scrip cost and is purchasable once",
+        "Purchased implants persist across runs (saved to disk)",
+        "Implant effects apply at run start",
+        "Implant shop UI shows name, description, cost, and purchased state",
+        "Project runs without errors"
+      ],
+      "priority": 15,
+      "passes": true
+    },
+    {
+      "id": "US-016",
+      "title": "Blueprints & Terminal Interaction",
+      "description": "As a player, I want to find blueprints and upload them at terminals so that I can unlock new items permanently.",
+      "acceptanceCriteria": [
+        "Blueprint items exist and can be found as loot",
+        "Terminal nodes exist in hallways and can be interacted with",
+        "Interacting with a terminal while holding a Blueprint 'uploads' it (unlocks in Hub)",
+        "Terminals also display flavor lore text in Pane D",
+        "Uploaded blueprints appear in Hub as craftable/available items for future runs",
+        "Project runs without errors"
+      ],
+      "priority": 16,
+      "passes": true
+    },
+    {
+      "id": "US-017",
+      "title": "Multiple Endings – Elevator & Exit Branches",
+      "description": "As a player, I want multiple possible endings based on which path I take so that repeat runs feel meaningful.",
+      "acceptanceCriteria": [
+        "Floor generator can designate elevator nodes with different destination tags: Bridge, Hangar, Source",
+        "Reaching the Bridge elevator triggers the 'Bridge Ending' (distress signal cutscene/text)",
+        "Reaching the Hangar elevator triggers the 'Hangar Ending' (escape pod text)",
+        "The Source path is locked behind requiring at least 3 specific lore items",
+        "Each ending displays unique text in Pane D and transitions to Hub with a label of the ending achieved",
+        "Project runs without errors"
+      ],
+      "priority": 17,
+      "passes": true
+    }
+  ]
+}
