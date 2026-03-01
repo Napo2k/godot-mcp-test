@@ -53,7 +53,9 @@ func load_room(room_data: Dictionary, player: Player) -> void:
 
 	# Add player
 	entity_container.add_child(player)
-	player.grid_pos = Vector2i(2, ROOM_H / 2)
+	var spawn_rng := RandomNumberGenerator.new()
+	spawn_rng.seed = room_data.get("id", 0) * 3333 + FloorGenerator.get_current_seed()
+	player.grid_pos = _find_spawn_pos(spawn_rng)
 	player._sync_visual()
 
 	# Spawn enemies if room has them and isn't cleared
@@ -179,6 +181,15 @@ func _random_floor_pos(rng: RandomNumberGenerator) -> Vector2i:
 		if pos not in _obstacle_map and pos not in _exit_positions:
 			return pos
 	return Vector2i.ZERO
+
+func _find_spawn_pos(rng: RandomNumberGenerator) -> Vector2i:
+	for _attempt in range(20):
+		var x := rng.randi_range(1, min(3, ROOM_W - 2))
+		var y := rng.randi_range(1, ROOM_H - 2)
+		var pos := Vector2i(x, y)
+		if pos not in _obstacle_map and pos not in _exit_positions:
+			return pos
+	return Vector2i(1, 1)
 
 func _spawn_enemies() -> void:
 	var enemy_types: Array = _room_data.get("enemy_types", ["mutant_crawler"])
