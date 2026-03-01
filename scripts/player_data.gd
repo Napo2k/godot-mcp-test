@@ -53,7 +53,7 @@ func reset_for_run() -> void:
 	ap = max_ap
 	mp = max_mp
 
-	equipped_weapon1 = null
+	equipped_weapon1 = ItemData.make_scrap_blade()
 	equipped_weapon2 = null
 	equipped_suit = null
 	equipped_chip = null
