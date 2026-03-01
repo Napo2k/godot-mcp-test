@@ -2,9 +2,9 @@ extends Node2D
 class_name RoomScene
 ## Renders and manages a single room in Pane A (viewport).
 
-const TILE_SIZE := 32
-const ROOM_W := 18   # tiles wide
-const ROOM_H := 10   # tiles tall
+var _tile_size: int = 32
+var room_w: int = 18
+var room_h: int = 10
 const WALL_COLOR   := Color(0.08, 0.18, 0.08, 1.0)
 const FLOOR_COLOR  := Color(0.05, 0.10, 0.05, 1.0)
 const PILLAR_COLOR := Color(0.15, 0.30, 0.15, 1.0)
@@ -43,6 +43,20 @@ func load_room(room_data: Dictionary, player: Player) -> void:
 	for child in entity_container.get_children():
 		child.queue_free()
 
+	# Variable room dimensions — seeded per room
+	var dim_rng := RandomNumberGenerator.new()
+	dim_rng.seed = room_data.get("id", 0) * 9157 + FloorGenerator.get_current_seed()
+	room_w = dim_rng.randi_range(14, 22)
+	room_h = dim_rng.randi_range(8, 14)
+
+	# Dynamic tile size — scale to fit PaneA content area
+	var available := Vector2(636.0, 330.0)
+	if GameManager.hud and GameManager.hud.has_method("get_pane_a_content"):
+		var pane: Control = GameManager.hud.get_pane_a_content()
+		if pane.size.x > 0:
+			available = pane.size
+	_tile_size = clamp(int(min(available.x / room_w, available.y / room_h)), 16, 32)
+
 	_generate_tiles()
 	_place_exits()
 	_place_obstacles()
@@ -56,6 +70,7 @@ func load_room(room_data: Dictionary, player: Player) -> void:
 	var spawn_rng := RandomNumberGenerator.new()
 	spawn_rng.seed = room_data.get("id", 0) * 3333 + FloorGenerator.get_current_seed()
 	player.grid_pos = _find_spawn_pos(spawn_rng)
+	player.tile_size = _tile_size
 	player._sync_visual()
 
 	# Spawn enemies if room has them and isn't cleared
@@ -63,13 +78,13 @@ func load_room(room_data: Dictionary, player: Player) -> void:
 		_spawn_enemies()
 
 func _generate_tiles() -> void:
-	for y in range(ROOM_H):
-		for x in range(ROOM_W):
+	for y in range(room_h):
+		for x in range(room_w):
 			var rect := ColorRect.new()
-			rect.size = Vector2(TILE_SIZE - 1, TILE_SIZE - 1)
-			rect.position = Vector2(x * TILE_SIZE, y * TILE_SIZE)
+			rect.size = Vector2(_tile_size - 1, _tile_size - 1)
+			rect.position = Vector2(x * _tile_size, y * _tile_size)
 			# Walls on border
-			var is_wall := (x == 0 or y == 0 or x == ROOM_W - 1 or y == ROOM_H - 1)
+			var is_wall := (x == 0 or y == 0 or x == room_w - 1 or y == room_h - 1)
 			rect.color = WALL_COLOR if is_wall else FLOOR_COLOR
 			tile_container.add_child(rect)
 
@@ -81,11 +96,11 @@ func _place_exits() -> void:
 		var connections: Array = _room_data.get("connections", [])
 		var exit_y_positions: Array = []
 		if connections.size() >= 1:
-			exit_y_positions.append(ROOM_H / 2 - 1)
+			exit_y_positions.append(room_h / 2 - 1)
 		if connections.size() >= 2:
-			exit_y_positions.append(ROOM_H / 2 + 1)
+			exit_y_positions.append(room_h / 2 + 1)
 		for i in range(min(connections.size(), exit_y_positions.size())):
-			var exit_pos := Vector2i(ROOM_W - 1, exit_y_positions[i])
+			var exit_pos := Vector2i(room_w - 1, exit_y_positions[i])
 			_exit_positions[exit_pos] = connections[i]
 			_draw_exit_tile(exit_pos, ">")
 		return
@@ -96,16 +111,16 @@ func _place_exits() -> void:
 		var label_text: String
 		match dir_name:
 			"north":
-				exit_pos = Vector2i(ROOM_W / 2, 0)
+				exit_pos = Vector2i(room_w / 2, 0)
 				label_text = "^"
 			"south":
-				exit_pos = Vector2i(ROOM_W / 2, ROOM_H - 1)
+				exit_pos = Vector2i(room_w / 2, room_h - 1)
 				label_text = "v"
 			"east":
-				exit_pos = Vector2i(ROOM_W - 1, ROOM_H / 2)
+				exit_pos = Vector2i(room_w - 1, room_h / 2)
 				label_text = ">"
 			"west":
-				exit_pos = Vector2i(0, ROOM_H / 2)
+				exit_pos = Vector2i(0, room_h / 2)
 				label_text = "<"
 			_:
 				continue
@@ -114,13 +129,13 @@ func _place_exits() -> void:
 
 func _draw_exit_tile(exit_pos: Vector2i, label_text: String) -> void:
 	var rect := ColorRect.new()
-	rect.size = Vector2(TILE_SIZE - 1, TILE_SIZE - 1)
-	rect.position = Vector2(exit_pos.x * TILE_SIZE, exit_pos.y * TILE_SIZE)
+	rect.size = Vector2(_tile_size - 1, _tile_size - 1)
+	rect.position = Vector2(exit_pos.x * _tile_size, exit_pos.y * _tile_size)
 	rect.color = EXIT_COLOR
 	tile_container.add_child(rect)
 	var lbl := Label.new()
 	lbl.text = label_text
-	lbl.position = Vector2(exit_pos.x * TILE_SIZE + 8, exit_pos.y * TILE_SIZE + 6)
+	lbl.position = Vector2(exit_pos.x * _tile_size + 8, exit_pos.y * _tile_size + 6)
 	lbl.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 	overlay_container.add_child(lbl)
 
@@ -164,19 +179,19 @@ func _place_terminal() -> void:
 
 func _draw_obstacle(pos: Vector2i, color: Color, symbol: String) -> void:
 	var rect := ColorRect.new()
-	rect.size = Vector2(TILE_SIZE - 2, TILE_SIZE - 2)
-	rect.position = Vector2(pos.x * TILE_SIZE + 1, pos.y * TILE_SIZE + 1)
+	rect.size = Vector2(_tile_size - 2, _tile_size - 2)
+	rect.position = Vector2(pos.x * _tile_size + 1, pos.y * _tile_size + 1)
 	rect.color = color
 	tile_container.add_child(rect)
 	var lbl := Label.new()
 	lbl.text = symbol
-	lbl.position = Vector2(pos.x * TILE_SIZE + 10, pos.y * TILE_SIZE + 6)
+	lbl.position = Vector2(pos.x * _tile_size + 10, pos.y * _tile_size + 6)
 	overlay_container.add_child(lbl)
 
 func _random_floor_pos(rng: RandomNumberGenerator) -> Vector2i:
 	for _attempt in range(20):
-		var x := rng.randi_range(2, ROOM_W - 3)
-		var y := rng.randi_range(2, ROOM_H - 3)
+		var x := rng.randi_range(2, room_w - 3)
+		var y := rng.randi_range(2, room_h - 3)
 		var pos := Vector2i(x, y)
 		if pos not in _obstacle_map and pos not in _exit_positions:
 			return pos
@@ -184,8 +199,8 @@ func _random_floor_pos(rng: RandomNumberGenerator) -> Vector2i:
 
 func _find_spawn_pos(rng: RandomNumberGenerator) -> Vector2i:
 	for _attempt in range(20):
-		var x := rng.randi_range(1, min(3, ROOM_W - 2))
-		var y := rng.randi_range(1, ROOM_H - 2)
+		var x := rng.randi_range(1, min(3, room_w - 2))
+		var y := rng.randi_range(1, room_h - 2)
 		var pos := Vector2i(x, y)
 		if pos not in _obstacle_map and pos not in _exit_positions:
 			return pos
@@ -199,7 +214,7 @@ func _spawn_enemies() -> void:
 	for etype in enemy_types:
 		var pos := _random_floor_pos(rng)
 		if pos == Vector2i.ZERO:
-			pos = Vector2i(ROOM_W - 4, ROOM_H / 2)
+			pos = Vector2i(room_w - 4, room_h / 2)
 		var enemy := _make_enemy_node(etype, pos)
 		_enemies.append(enemy)
 		entity_container.add_child(enemy)
@@ -214,17 +229,18 @@ func _make_enemy_node(etype: String, pos: Vector2i) -> Enemy:
 	# Sprite
 	var sprite := ColorRect.new()
 	sprite.name = "Sprite"
-	sprite.size = Vector2(TILE_SIZE - 4, TILE_SIZE - 4)
-	sprite.position = Vector2(-(TILE_SIZE / 2) + 2, -(TILE_SIZE / 2) + 2)
+	sprite.size = Vector2(_tile_size - 4, _tile_size - 4)
+	sprite.position = Vector2(-(_tile_size / 2) + 2, -(_tile_size / 2) + 2)
 	sprite.color = Color(0.8, 0.1, 0.1, 1.0)
 	enemy.add_child(sprite)
 	# HP label
 	var hp_lbl := Label.new()
 	hp_lbl.name = "HPLabel"
-	hp_lbl.position = Vector2(-8, -TILE_SIZE / 2 - 12)
+	hp_lbl.position = Vector2(-8, -_tile_size / 2 - 12)
 	hp_lbl.add_theme_color_override("font_color", Color(1, 0.4, 0.4, 1))
 	enemy.add_child(hp_lbl)
 	# setup() stores data without accessing children (safe before _ready)
+	enemy.tile_size = _tile_size
 	enemy.setup(etype, pos)
 	return enemy
 
@@ -245,12 +261,12 @@ func is_walkable(pos: Vector2i) -> bool:
 	# Allow movement onto exit positions (wall tiles with exits)
 	if pos in _exit_positions:
 		return true
-	if pos.x <= 0 or pos.y <= 0 or pos.x >= ROOM_W - 1 or pos.y >= ROOM_H - 1:
+	if pos.x <= 0 or pos.y <= 0 or pos.x >= room_w - 1 or pos.y >= room_h - 1:
 		return false
 	return pos not in _obstacle_map
 
 func is_walkable_combat(pos: Vector2i) -> bool:
-	if pos.x <= 0 or pos.y <= 0 or pos.x >= ROOM_W - 1 or pos.y >= ROOM_H - 1:
+	if pos.x <= 0 or pos.y <= 0 or pos.x >= room_w - 1 or pos.y >= room_h - 1:
 		return false
 	if pos in _obstacle_map:
 		return false

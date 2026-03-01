@@ -4,7 +4,7 @@ class_name Enemy
 
 signal died(enemy: Enemy)
 
-const TILE_SIZE := 32
+var tile_size: int = 32
 
 var grid_pos: Vector2i = Vector2i(0, 0)
 var enemy_type: String = "mutant_crawler"
@@ -31,8 +31,8 @@ func setup(etype: String, pos: Vector2i) -> void:
 		"ghost":
 			max_hp = 15; hp = 15; damage = 5;  base_mp = 5
 	# Set raw position now (safe, no children needed)
-	position = Vector2(grid_pos.x * TILE_SIZE + TILE_SIZE / 2.0,
-					   grid_pos.y * TILE_SIZE + TILE_SIZE / 2.0)
+	position = Vector2(grid_pos.x * tile_size + tile_size / 2.0,
+					   grid_pos.y * tile_size + tile_size / 2.0)
 
 func _ready() -> void:
 	"""Called when node enters scene tree — wire up child references."""
@@ -43,8 +43,8 @@ func _ready() -> void:
 func _refresh_visuals() -> void:
 	if _hp_label:
 		_hp_label.text = "%d/%d" % [hp, max_hp]
-	position = Vector2(grid_pos.x * TILE_SIZE + TILE_SIZE / 2.0,
-					   grid_pos.y * TILE_SIZE + TILE_SIZE / 2.0)
+	position = Vector2(grid_pos.x * tile_size + tile_size / 2.0,
+					   grid_pos.y * tile_size + tile_size / 2.0)
 
 func take_damage(amount: int) -> void:
 	hp = max(0, hp - amount)

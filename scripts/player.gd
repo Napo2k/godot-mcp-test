@@ -5,7 +5,7 @@ class_name Player
 signal action_performed(action: Dictionary)
 signal moved(new_pos: Vector2i)
 
-const TILE_SIZE := 32
+var tile_size: int = 32
 
 var grid_pos: Vector2i = Vector2i(5, 5)
 var _can_move: bool = true  # false during combat (not player's turn)
@@ -195,5 +195,5 @@ func start_player_turn() -> void:
 	DataLog.log("> [F]=Attack  [G]=Use Item  [SPACE]=End Turn  [WASD]=Move")
 
 func _sync_visual() -> void:
-	position = Vector2(grid_pos.x * TILE_SIZE + TILE_SIZE / 2.0,
-					   grid_pos.y * TILE_SIZE + TILE_SIZE / 2.0)
+	position = Vector2(grid_pos.x * tile_size + tile_size / 2.0,
+					   grid_pos.y * tile_size + tile_size / 2.0)
