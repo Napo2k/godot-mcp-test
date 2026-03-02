@@ -1,0 +1,27 @@
+{
+  "plan_source": ".claude/plans/gameplay-fixes.md",
+  "created_at": "2026-03-01T00:00:00Z",
+  "stories": [
+    {
+      "id": "story-1",
+      "title": "Give player a Scrap Blade weapon on every new run",
+      "description": "In scripts/player_data.gd, in the reset_for_run() function, replace the line 'equipped_weapon1 = null' with 'equipped_weapon1 = ItemData.make_scrap_blade()' so that every run starts with a melee weapon already equipped in slot 1. This is a single-line change at line 56.",
+      "priority": 1,
+      "passes": true
+    },
+    {
+      "id": "story-2",
+      "title": "Randomize player spawn position in room's left zone",
+      "description": "In scripts/room_scene.gd, in load_room(), replace the hardcoded spawn 'player.grid_pos = Vector2i(2, ROOM_H / 2)' with a seeded-RNG-based spawn. Add a helper method _find_spawn_pos(rng: RandomNumberGenerator) -> Vector2i that tries up to 20 times to find a walkable tile at x in [1..min(3, room_w-2)], y in [1..room_h-2] avoiding _obstacle_map and _exit_positions, returning Vector2i(1, 1) as fallback. In load_room() after placing obstacles (so _obstacle_map is populated), create a spawn_rng seeded with room_data.get('id', 0) * 3333 + FloorGenerator.get_current_seed(), call _find_spawn_pos(spawn_rng) and assign result to player.grid_pos. Note: player is added to entity_container and then grid_pos is set - this ordering must be preserved. At this point ROOM_H and ROOM_W are still consts (18 and 10), so references to them are fine.",
+      "priority": 2,
+      "passes": true
+    },
+    {
+      "id": "story-3",
+      "title": "Add variable room dimensions per room with dynamic tile sizing",
+      "description": "This story changes scripts/room_scene.gd, scripts/player.gd, and scripts/enemy.gd.\n\nIn room_scene.gd:\n- Remove 'const ROOM_W := 18' and 'const ROOM_H := 10' and 'const TILE_SIZE := 32'\n- Add instance vars: 'var room_w: int = 18', 'var room_h: int = 10', 'var _tile_size: int = 32'\n- At the start of load_room() (before _generate_tiles), seed a RNG: 'var dim_rng := RandomNumberGenerator.new(); dim_rng.seed = room_data.get(\"id\", 0) * 9157 + FloorGenerator.get_current_seed(); room_w = dim_rng.randi_range(14, 22); room_h = dim_rng.randi_range(8, 14)'\n- After setting room_w/room_h, calculate tile size: query GameManager.hud.get_pane_a_content().size (fallback to Vector2(636, 330) if unavailable), compute '_tile_size = clamp(int(min(available.x / room_w, available.y / room_h)), 16, 32)'\n- Replace all ROOM_W with room_w, ROOM_H with room_h, TILE_SIZE with _tile_size throughout the file (in _generate_tiles, _place_exits, _draw_exit_tile, _draw_obstacle, _random_floor_pos, _spawn_enemies, is_walkable, is_walkable_combat)\n- In _make_enemy_node(): update sprite.size, sprite.position, hp_lbl.position to use _tile_size; set 'enemy.tile_size = _tile_size' BEFORE calling 'enemy.setup(etype, pos)'\n- In load_room() before player._sync_visual(): set 'player.tile_size = _tile_size'\n\nIn player.gd:\n- Change 'const TILE_SIZE := 32' to 'var tile_size: int = 32'\n- In _sync_visual(), replace TILE_SIZE with tile_size\n\nIn enemy.gd:\n- Change 'const TILE_SIZE := 32' to 'var tile_size: int = 32'\n- In setup(), replace TILE_SIZE with tile_size in the position calculation\n- In _refresh_visuals(), replace TILE_SIZE with tile_size in the position calculation",
+      "priority": 3,
+      "passes": true
+    }
+  ]
+}

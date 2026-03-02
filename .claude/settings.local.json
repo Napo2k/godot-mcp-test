@@ -4,7 +4,13 @@
       "Bash(where godot:*)",
       "mcp__godot-mcp__create_scene",
       "mcp__godot-mcp__add_node",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "mcp__godot-mcp__get_directory_structure",
+      "mcp__godot-mcp__read_scene",
+      "Bash(uv run:*)",
+      "Bash(git commit:*)",
+      "Bash(git:*)",
+      "mcp__godot-mcp__set_node_property"
     ]
   }
 }
