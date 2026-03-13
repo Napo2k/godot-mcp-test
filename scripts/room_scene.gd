@@ -2,11 +2,11 @@ extends Node2D
 class_name RoomScene
 ## Renders and manages a single room in Pane A (viewport).
 
+const TEX_FLOORS := preload("res://assets/tilesets/_Floors.png")
+const TEX_WALLS  := preload("res://assets/tilesets/_Walls1.png")
 var _tile_size: int = 32
 var room_w: int = 18
 var room_h: int = 10
-const WALL_COLOR   := Color(0.08, 0.18, 0.08, 1.0)
-const FLOOR_COLOR  := Color(0.05, 0.10, 0.05, 1.0)
 const PILLAR_COLOR := Color(0.15, 0.30, 0.15, 1.0)
 const CRATE_COLOR  := Color(0.20, 0.25, 0.10, 1.0)
 const EXIT_COLOR   := Color(0.0, 0.5, 0.8, 1.0)
@@ -24,6 +24,17 @@ var _loot_revealed: bool = false
 @onready var tile_container: Node2D = $TileContainer
 @onready var entity_container: Node2D = $EntityContainer
 @onready var overlay_container: Node2D = $OverlayContainer
+
+func _make_tile_sprite(tex: Texture2D, col: int, row: int, gx: int, gy: int) -> Sprite2D:
+	var spr := Sprite2D.new()
+	spr.texture = tex
+	spr.region_enabled = true
+	spr.region_rect = Rect2(col * 32, row * 32, 32, 32)
+	spr.centered = false
+	spr.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	spr.position = Vector2(gx * _tile_size, gy * _tile_size)
+	spr.scale = Vector2(float(_tile_size) / 32.0, float(_tile_size) / 32.0)
+	return spr
 
 func _ready() -> void:
 	pass
@@ -78,15 +89,18 @@ func load_room(room_data: Dictionary, player: Player) -> void:
 		_spawn_enemies()
 
 func _generate_tiles() -> void:
+	var tile_rng := RandomNumberGenerator.new()
 	for y in range(room_h):
 		for x in range(room_w):
-			var rect := ColorRect.new()
-			rect.size = Vector2(_tile_size - 1, _tile_size - 1)
-			rect.position = Vector2(x * _tile_size, y * _tile_size)
-			# Walls on border
 			var is_wall := (x == 0 or y == 0 or x == room_w - 1 or y == room_h - 1)
-			rect.color = WALL_COLOR if is_wall else FLOOR_COLOR
-			tile_container.add_child(rect)
+			var spr: Sprite2D
+			if is_wall:
+				spr = _make_tile_sprite(TEX_WALLS, 0, 0, x, y)
+			else:
+				tile_rng.seed = x * 7919 + y * 6271 + room_w * 3
+				var variant := tile_rng.randi_range(0, 3)
+				spr = _make_tile_sprite(TEX_FLOORS, variant, 0, x, y)
+			tile_container.add_child(spr)
 
 func _place_exits() -> void:
 	var exits: Dictionary = _room_data.get("exits", {})
