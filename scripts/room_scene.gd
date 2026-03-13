@@ -164,7 +164,7 @@ func _place_obstacles() -> void:
 		var pos := _random_floor_pos(rng)
 		if pos != Vector2i.ZERO and pos not in _obstacle_map:
 			_obstacle_map[pos] = "pillar"
-			_draw_obstacle(pos, PILLAR_COLOR, "P")
+			_draw_obstacle(pos, Color(0.5, 0.5, 0.5, 1.0), "P")
 
 	# 2-4 crates
 	var crate_count := rng.randi_range(2, 4)
@@ -172,7 +172,7 @@ func _place_obstacles() -> void:
 		var pos := _random_floor_pos(rng)
 		if pos != Vector2i.ZERO and pos not in _obstacle_map:
 			_obstacle_map[pos] = "crate"
-			_draw_obstacle(pos, CRATE_COLOR, "C")
+			_draw_obstacle(pos, Color(0.6, 0.35, 0.1, 1.0), "C")
 
 func _place_loot() -> void:
 	var rng := RandomNumberGenerator.new()

@@ -1,13 +1,15 @@
 Ralph Loop Progress
 ===================
-Plan: Gameplay Fixes — Weapon Start, Random Spawn, Variable Rooms
-Source: .claude/plans/gameplay-fixes.md
-Started: 2026-03-01
+Plan: Tileset Room Generation
+Source: .claude/plans/tileset-room-generation.md
+Started: 2026-03-13
 
-Stories: 3/3 complete
+Stories: 4/4 complete
 
 ---
 
-[2026-03-01] Completed: story-1 - Give player a Scrap Blade weapon on every new run
-[2026-03-01] Completed: story-2 - Randomize player spawn position in room's left zone
-[2026-03-01] Completed: story-3 - Add variable room dimensions per room with dynamic tile sizing
+[2026-03-13] Completed: story-1 - Floor and wall tiles → Sprite2D
+[2026-03-13] Completed: story-2 - Obstacles and exits → Sprite2D
+[2026-03-13] Completed: story-3 - Enemy sprites → Sprite2D
+[2026-03-13] Completed: story-4 - Player sprite → Sprite2D
+
