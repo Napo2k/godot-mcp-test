@@ -1,4 +1,5 @@
 extends Node2D
+const TEX_VARIETY := preload("res://assets/tilesets/_Meph_variety.png")
 ## Main game scene — loaded into Pane A during a run.
 ## Manages the active room, player, and nav-com map.
 
@@ -20,12 +21,14 @@ func _ready() -> void:
 func _setup_player() -> void:
 	# Player.new() works because class_name Player is globally registered
 	_player = Player.new()
-	# Sprite — green square representing the player
-	var sprite := ColorRect.new()
+	var sprite := Sprite2D.new()
 	sprite.name = "Sprite"
-	sprite.size = Vector2(24, 24)
-	sprite.position = Vector2(-12, -12)
-	sprite.color = Color(0.0, 0.9, 0.3, 1.0)
+	sprite.texture = TEX_VARIETY
+	sprite.region_enabled = true
+	sprite.region_rect = Rect2(8 * 32, 0, 32, 32)
+	sprite.centered = true
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.position = Vector2(0, 0)
 	_player.add_child(sprite)
 
 func _setup_nav_com() -> void:

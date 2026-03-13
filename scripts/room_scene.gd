@@ -82,6 +82,9 @@ func load_room(room_data: Dictionary, player: Player) -> void:
 	spawn_rng.seed = room_data.get("id", 0) * 3333 + FloorGenerator.get_current_seed()
 	player.grid_pos = _find_spawn_pos(spawn_rng)
 	player.tile_size = _tile_size
+	var pspr := player.get_node_or_null("Sprite") as Sprite2D
+	if pspr:
+		pspr.scale = Vector2(float(_tile_size) / 32.0, float(_tile_size) / 32.0)
 	player._sync_visual()
 
 	# Spawn enemies if room has them and isn't cleared
