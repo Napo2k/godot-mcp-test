@@ -6,6 +6,7 @@ const TEX_FLOORS      := preload("res://assets/tilesets/_Floors.png")
 const TEX_WALLS       := preload("res://assets/tilesets/_Walls1.png")
 const TEX_FURNITURE   := preload("res://assets/tilesets/_Meph_furniture.png")
 const TEX_DECORATIONS := preload("res://assets/tilesets/_Meph_decorations_2.png")
+const TEX_VARIETY     := preload("res://assets/tilesets/_Meph_variety.png")
 var _tile_size: int = 32
 var room_w: int = 18
 var room_h: int = 10
@@ -244,11 +245,21 @@ func _make_enemy_node(etype: String, pos: Vector2i) -> Enemy:
 	# Use Enemy.new() directly — class_name Enemy is globally registered
 	var enemy := Enemy.new()
 	# Sprite
-	var sprite := ColorRect.new()
+	var ecol: int
+	match etype:
+		"drone":  ecol = 2
+		"heavy":  ecol = 4
+		"elite":  ecol = 6
+		_:        ecol = 0
+	var sprite := Sprite2D.new()
 	sprite.name = "Sprite"
-	sprite.size = Vector2(_tile_size - 4, _tile_size - 4)
-	sprite.position = Vector2(-(_tile_size / 2) + 2, -(_tile_size / 2) + 2)
-	sprite.color = Color(0.8, 0.1, 0.1, 1.0)
+	sprite.texture = TEX_VARIETY
+	sprite.region_enabled = true
+	sprite.region_rect = Rect2(ecol * 32, 0, 32, 32)
+	sprite.centered = true
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.position = Vector2(0, 0)
+	sprite.scale = Vector2(float(_tile_size) / 32.0, float(_tile_size) / 32.0)
 	enemy.add_child(sprite)
 	# HP label
 	var hp_lbl := Label.new()
