@@ -2,14 +2,13 @@ extends Node2D
 class_name RoomScene
 ## Renders and manages a single room in Pane A (viewport).
 
-const TEX_FLOORS := preload("res://assets/tilesets/_Floors.png")
-const TEX_WALLS  := preload("res://assets/tilesets/_Walls1.png")
+const TEX_FLOORS      := preload("res://assets/tilesets/_Floors.png")
+const TEX_WALLS       := preload("res://assets/tilesets/_Walls1.png")
+const TEX_FURNITURE   := preload("res://assets/tilesets/_Meph_furniture.png")
+const TEX_DECORATIONS := preload("res://assets/tilesets/_Meph_decorations_2.png")
 var _tile_size: int = 32
 var room_w: int = 18
 var room_h: int = 10
-const PILLAR_COLOR := Color(0.15, 0.30, 0.15, 1.0)
-const CRATE_COLOR  := Color(0.20, 0.25, 0.10, 1.0)
-const EXIT_COLOR   := Color(0.0, 0.5, 0.8, 1.0)
 
 var _room_data: Dictionary = {}
 var _obstacle_map: Dictionary = {}  # Vector2i -> "pillar"|"crate"
@@ -142,11 +141,9 @@ func _place_exits() -> void:
 		_draw_exit_tile(exit_pos, label_text)
 
 func _draw_exit_tile(exit_pos: Vector2i, label_text: String) -> void:
-	var rect := ColorRect.new()
-	rect.size = Vector2(_tile_size - 1, _tile_size - 1)
-	rect.position = Vector2(exit_pos.x * _tile_size, exit_pos.y * _tile_size)
-	rect.color = EXIT_COLOR
-	tile_container.add_child(rect)
+	var spr := _make_tile_sprite(TEX_FLOORS, 0, 0, exit_pos.x, exit_pos.y)
+	spr.modulate = Color(0.3, 0.6, 1.0, 1.0)
+	tile_container.add_child(spr)
 	var lbl := Label.new()
 	lbl.text = label_text
 	lbl.position = Vector2(exit_pos.x * _tile_size + 8, exit_pos.y * _tile_size + 6)
@@ -191,12 +188,18 @@ func _place_terminal() -> void:
 	_terminal_positions.append(pos)
 	_draw_obstacle(pos, Color(0.0, 0.6, 0.8, 1.0), "T")
 
-func _draw_obstacle(pos: Vector2i, color: Color, symbol: String) -> void:
-	var rect := ColorRect.new()
-	rect.size = Vector2(_tile_size - 2, _tile_size - 2)
-	rect.position = Vector2(pos.x * _tile_size + 1, pos.y * _tile_size + 1)
-	rect.color = color
-	tile_container.add_child(rect)
+func _draw_obstacle(pos: Vector2i, _color: Color, symbol: String) -> void:
+	var tex: Texture2D
+	var col: int
+	var row: int
+	match symbol:
+		"P":  tex = TEX_DECORATIONS; col = 0; row = 0
+		"C":  tex = TEX_FURNITURE;   col = 1; row = 0
+		"L":  tex = TEX_FURNITURE;   col = 2; row = 0
+		"T":  tex = TEX_FURNITURE;   col = 3; row = 0
+		_:    tex = TEX_FURNITURE;   col = 0; row = 0
+	var spr := _make_tile_sprite(tex, col, row, pos.x, pos.y)
+	tile_container.add_child(spr)
 	var lbl := Label.new()
 	lbl.text = symbol
 	lbl.position = Vector2(pos.x * _tile_size + 10, pos.y * _tile_size + 6)
