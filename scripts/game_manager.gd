@@ -17,6 +17,7 @@ var _active_game_scene: Node = null
 const GAME_SCENE := "res://scenes/game.tscn"
 const HUB_SCENE  := "res://scenes/hub.tscn"
 const MAIN_SCENE := "res://scenes/main.tscn"
+const MAX_FLOORS: int = 5
 
 func start_new_run() -> void:
 	"""Called from Hub when 'Begin Run' is pressed. Main scene has already loaded."""
@@ -72,6 +73,19 @@ func trigger_death() -> void:
 		_active_game_scene = null
 	current_mode = GameMode.HUB
 	get_tree().change_scene_to_file(HUB_SCENE)
+
+func advance_floor() -> void:
+	current_floor += 1
+	DataLog.log("=== FLOOR %d ===" % (current_floor + 1))
+
+	if current_floor >= MAX_FLOORS:
+		trigger_ending("bridge")
+		return
+
+	FloorGenerator.generate(randi(), current_floor)
+	current_room_id = 0
+	_load_game_scene()
+	DataLog.log(FloorGenerator.get_room_description(0))
 
 func trigger_ending(ending_type: String) -> void:
 	var scrip_reward := 50
