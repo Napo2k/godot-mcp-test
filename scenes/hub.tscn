@@ -1,111 +1,103 @@
 [gd_scene format=3 uid="uid://slhub001"]
 
-[ext_resource type="Script" path="res://scripts/hub.gd" id="1_hub"]
+[ext_resource type="Script" uid="uid://cdtju0lq1l3bp" path="res://scripts/hub.gd" id="1_hub"]
+[ext_resource type="Texture2D" uid="uid://7refnfewdwi3" path="res://assets/backgrounds/Nebula Red.png" id="2_d1od2"]
 
-[node name="Hub" type="Control"]
+[node name="Hub" type="Control" unique_id=903089379]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_hub")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=1516370761]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.04, 0.03, 0.02, 1)
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_d1od2")
 
-[node name="CabinPanel" type="VBoxContainer" parent="."]
+[node name="CabinPanel" type="VBoxContainer" parent="." unique_id=1623918404]
 layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.15
 anchor_top = 0.05
 anchor_right = 0.85
 anchor_bottom = 0.95
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
 
-[node name="TitleLabel" type="Label" parent="CabinPanel"]
+[node name="TitleLabel" type="Label" parent="CabinPanel" unique_id=125448353]
 layout_mode = 2
 text = "=== THE CABIN ==="
 horizontal_alignment = 1
 
-[node name="SubtitleLabel" type="Label" parent="CabinPanel"]
+[node name="SubtitleLabel" type="Label" parent="CabinPanel" unique_id=1391562285]
 layout_mode = 2
 text = "You wake. The nightmare persists."
 horizontal_alignment = 1
 
-[node name="ScripLabel" type="Label" parent="CabinPanel"]
+[node name="ScripLabel" type="Label" parent="CabinPanel" unique_id=1544270400]
 layout_mode = 2
-name = "ScripLabel"
 text = "Neural Scrip: 0"
 horizontal_alignment = 1
 
-[node name="RunsLabel" type="Label" parent="CabinPanel"]
+[node name="RunsLabel" type="Label" parent="CabinPanel" unique_id=443805527]
 layout_mode = 2
-name = "RunsLabel"
 text = "Runs survived: 0"
 horizontal_alignment = 1
 
-[node name="HSep1" type="HSeparator" parent="CabinPanel"]
+[node name="HSep1" type="HSeparator" parent="CabinPanel" unique_id=56875958]
 layout_mode = 2
 
-[node name="StashLabel" type="Label" parent="CabinPanel"]
+[node name="StashLabel" type="Label" parent="CabinPanel" unique_id=1807001981]
 layout_mode = 2
 text = "--- THE STASH ---"
 horizontal_alignment = 1
 
-[node name="StashInfo" type="Label" parent="CabinPanel"]
+[node name="StashInfo" type="Label" parent="CabinPanel" unique_id=1764633780]
 layout_mode = 2
-name = "StashInfo"
 text = "No item stashed."
 horizontal_alignment = 1
 
-[node name="StashButton" type="Button" parent="CabinPanel"]
+[node name="StashButton" type="Button" parent="CabinPanel" unique_id=404243689]
 layout_mode = 2
-name = "StashButton"
 text = "Stash Current Weapon 1"
 
-[node name="HSep2" type="HSeparator" parent="CabinPanel"]
+[node name="HSep2" type="HSeparator" parent="CabinPanel" unique_id=1135738422]
 layout_mode = 2
 
-[node name="ImplantsLabel" type="Label" parent="CabinPanel"]
+[node name="ImplantsLabel" type="Label" parent="CabinPanel" unique_id=412338924]
 layout_mode = 2
 text = "--- NEURO-IMPLANTS ---"
 horizontal_alignment = 1
 
-[node name="ImplantMaxHP" type="Button" parent="CabinPanel"]
+[node name="ImplantMaxHP" type="Button" parent="CabinPanel" unique_id=1918321413]
 layout_mode = 2
-name = "ImplantMaxHP"
 text = "Max HP +10  [Cost: 30 Scrip]"
 
-[node name="ImplantSanity" type="Button" parent="CabinPanel"]
+[node name="ImplantSanity" type="Button" parent="CabinPanel" unique_id=1038156515]
 layout_mode = 2
-name = "ImplantSanity"
 text = "Mental Resistance +10  [Cost: 25 Scrip]"
 
-[node name="ImplantAP" type="Button" parent="CabinPanel"]
+[node name="ImplantAP" type="Button" parent="CabinPanel" unique_id=1754322199]
 layout_mode = 2
-name = "ImplantAP"
 text = "Starting AP +1  [Cost: 40 Scrip]"
 
-[node name="ImplantDamage" type="Button" parent="CabinPanel"]
+[node name="ImplantDamage" type="Button" parent="CabinPanel" unique_id=173139246]
 layout_mode = 2
-name = "ImplantDamage"
 text = "Damage vs Mutants +5  [Cost: 35 Scrip]"
 
-[node name="HSep3" type="HSeparator" parent="CabinPanel"]
+[node name="HSep3" type="HSeparator" parent="CabinPanel" unique_id=1554670824]
 layout_mode = 2
 
-[node name="EndingsLabel" type="Label" parent="CabinPanel"]
+[node name="EndingsLabel" type="Label" parent="CabinPanel" unique_id=1478416728]
 layout_mode = 2
-name = "EndingsLabel"
 text = "Endings: None"
 horizontal_alignment = 1
 
-[node name="BeginButton" type="Button" parent="CabinPanel"]
+[node name="BeginButton" type="Button" parent="CabinPanel" unique_id=131361903]
 layout_mode = 2
-name = "BeginButton"
 text = ">>> BEGIN RUN <<<"

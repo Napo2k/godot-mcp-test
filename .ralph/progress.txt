@@ -1,15 +1,16 @@
 Ralph Loop Progress
 ===================
-Plan: Tileset Room Generation
-Source: .claude/plans/tileset-room-generation.md
-Started: 2026-03-13
+Plan: P1 — Floor Progression & Implant Bonuses
+Source: .claude/plans/p1-floor-progression-implants.md
+Started: 2026-03-14
 
-Stories: 4/4 complete
+Stories: 6/6 complete
 
 ---
 
-[2026-03-13] Completed: story-1 - Floor and wall tiles → Sprite2D
-[2026-03-13] Completed: story-2 - Obstacles and exits → Sprite2D
-[2026-03-13] Completed: story-3 - Enemy sprites → Sprite2D
-[2026-03-13] Completed: story-4 - Player sprite → Sprite2D
-
+[2026-03-14] Completed: story-1 - Change implant storage to int in save_manager.gd
+[2026-03-14] Completed: story-2 - Apply all 4 implant bonuses in player_data.gd:reset_for_run()
+[2026-03-14] Completed: story-3 - Scale implant_sanity per-hit resistance by count in lose_sanity()
+[2026-03-14] Completed: story-4 - Add MAX_FLOORS constant and advance_floor() to game_manager.gd
+[2026-03-14] Completed: story-5 - Fix start_new_run() to pass floor_depth to FloorGenerator
+[2026-03-14] Completed: story-6 - Wire elevator exit to GameManager.advance_floor()
