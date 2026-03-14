@@ -310,6 +310,9 @@ func check_exit(pos: Vector2i) -> void:
 	if GameManager.current_mode != GameManager.GameMode.EXPLORATION:
 		return
 	if pos in _exit_positions:
+		if _room_data.get("is_elevator", false):
+			GameManager.advance_floor()
+			return
 		var target_room_id: int = _exit_positions[pos]
 		var target_room := FloorGenerator.get_room(target_room_id)
 		FloorGenerator.mark_visited(target_room_id)
