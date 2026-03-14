@@ -146,8 +146,7 @@ func perform_action(action: Dictionary) -> void:
 			PlayerData.emit_signal("stats_changed")
 			return
 		var damage: int = action.damage
-		if SaveManager.has_implant("implant_damage"):
-			damage += 5
+		damage += PlayerData.damage_bonus
 		var cover := CoverSystem.get_cover(grid_pos, target_enemy.grid_pos, room_scene.get_obstacle_map())
 		var hit_chance := CoverSystem.apply_cover_to_hit_chance(0.85, cover)
 		if randf() <= hit_chance:

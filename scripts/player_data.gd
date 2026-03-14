@@ -20,6 +20,7 @@ var max_ap: int = 3
 var ap: int = 3
 var max_mp: int = 5
 var mp: int = 5
+var damage_bonus: int = 0
 
 # --- Equipment slots (ItemData resources or null) ---
 var equipped_weapon1: Resource = null
@@ -43,9 +44,15 @@ func reset_for_run() -> void:
 	"""Called at the start of each new run. Applies Neuro-Implant bonuses."""
 	var implants: Dictionary = SaveManager.get_implants()
 
-	max_hp = base_max_hp + (10 if implants.get("implant_max_hp", false) else 0)
-	max_ap = base_max_ap + (1 if implants.get("implant_ap", false) else 0)
-	max_sanity = base_max_sanity
+	var imp_hp  : int = implants.get("implant_max_hp", 0)
+	var imp_ap  : int = implants.get("implant_ap",     0)
+	var imp_san : int = implants.get("implant_sanity",  0)
+	var imp_dmg : int = implants.get("implant_damage",  0)
+
+	max_hp       = base_max_hp + (10 * imp_hp)
+	max_ap       = base_max_ap + (1  * imp_ap)
+	max_sanity   = base_max_sanity + (20 * imp_san)
+	damage_bonus = base_damage_bonus + (5 * imp_dmg)
 	max_mp = base_max_mp
 
 	hp = max_hp
