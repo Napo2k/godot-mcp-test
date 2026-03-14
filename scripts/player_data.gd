@@ -84,8 +84,8 @@ func take_damage(amount: int) -> void:
 		GameManager.trigger_death()
 
 func lose_sanity(amount: int) -> void:
-	var has_resistance: bool = SaveManager.has_implant("implant_sanity")
-	var actual: int = max(0, amount - (10 if has_resistance else 0))
+	var imp_san: int = SaveManager.get_implants().get("implant_sanity", 0)
+	var actual: int = max(0, amount - (10 * imp_san))
 	sanity = max(0, sanity - actual)
 	emit_signal("stats_changed")
 	if sanity <= 0:
