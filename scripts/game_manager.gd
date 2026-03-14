@@ -25,7 +25,7 @@ func start_new_run() -> void:
 	MiasmaMgr.reset()
 	current_floor = 0
 	current_room_id = 0
-	FloorGenerator.generate(randi())
+	FloorGenerator.generate(randi(), current_floor)
 	current_mode = GameMode.EXPLORATION
 
 	# Spawn the game scene into Pane A
