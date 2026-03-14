@@ -57,17 +57,19 @@ func spend_scrip(amount: int) -> bool:
 
 # --- Neuro-Implants ---
 func get_implants() -> Dictionary:
-	return _data.get("implants", {})
+	var raw: Dictionary = _data.get("implants", {})
+	var result: Dictionary = {}
+	for k in raw:
+		result[k] = raw[k] if raw[k] is int else (1 if raw[k] else 0)
+	return result
 
 func has_implant(id: String) -> bool:
-	return get_implants().get(id, false)
+	return get_implants().get(id, 0) > 0
 
 func buy_implant(id: String, cost: int) -> bool:
-	if has_implant(id):
-		return false
 	if not spend_scrip(cost):
 		return false
-	_data["implants"][id] = true
+	_data["implants"][id] = _data["implants"].get(id, 0) + 1
 	save_data()
 	return true
 
